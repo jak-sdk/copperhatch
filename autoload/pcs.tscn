@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://autoload/pcs.gd" type="Script" id=1]
+[ext_resource path="res://characters/foo.tscn" type="PackedScene" id=3]
+
+[node name="pcs" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="pc1" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1.75, 0, 0, 0, 1, 0, 0.601228, -6.42181 )
+
+[node name="SpotLight" type="SpotLight" parent="pc1"]
+transform = Transform( 1, 0, 0, 0, 0.571429, 0, 0, 0, 1, 0, 0, 0 )
+light_energy = 5.91
+light_specular = 0.26
+shadow_enabled = true
+spot_range = 10.661
+spot_angle = 26.8648
+
+[node name="pc2" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1.75, 0, 0, 0, 1, 3.97322, 0.601228, -10.1891 )
+
+[node name="pc3" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1.75, 0, 0, 0, 1, 0, 0.601228, -11.3927 )
+
+[node name="pc4" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1.75, 0, 0, 0, 1, 3.97322, 0.601228, -2.97104 )

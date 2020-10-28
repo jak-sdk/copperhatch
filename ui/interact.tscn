@@ -1,0 +1,21 @@
+[gd_scene format=2]
+
+[node name="Control" type="Control"]
+anchor_left = 0.002
+anchor_top = 0.003
+anchor_right = 0.106
+anchor_bottom = 0.185
+margin_left = -1.42145
+margin_top = -1.9226
+margin_right = 0.0825424
+margin_bottom = -0.122604
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}

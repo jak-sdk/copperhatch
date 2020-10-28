@@ -1,0 +1,5 @@
+fact system?
+track game logic as well? a fact could be like stole_fuel
+facts: [fact_id short_name presentation_name fulltext ]
+known_facts: [fact_id]
+

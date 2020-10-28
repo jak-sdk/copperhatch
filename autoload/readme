@@ -1,0 +1,14 @@
+root
+ - ui / ui singleton
+   - ui elements ...
+   - 2 
+   - 3
+ - demigod-of
+   - facts
+   - state
+   - pcs
+   - npcs?
+   - scenes
+ - scene 
+   - interior / exterior lighting?
+   - map1 # get switched with other maps

@@ -1,0 +1,58 @@
+extends Spatial
+
+
+var speed = 20
+onready var camera_body = get_node('camera_body')
+
+onready var cam = get_node('camera_body/camera')
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+
+func _physics_process(delta):
+	var direction = Vector3(0,0,0)
+	if Input.is_action_pressed("ui_a"):
+		direction.x -= 1
+		direction.z += 1
+	if Input.is_action_pressed("ui_d"):
+		direction.x += 1
+		direction.z -= 1
+	if Input.is_action_pressed("ui_w"):
+		direction.z -= 1
+		direction.x -= 1
+	if Input.is_action_pressed("ui_s"):
+		direction.z += 1
+		direction.x += 1
+	if direction.length() > 0:
+		direction = direction.normalized()
+		camera_body.move_and_slide(direction*speed, Vector3(0,1,0))
+
+func _input(event):
+	if event is InputEventMouseMotion:
+		if event.button_mask & (BUTTON_MASK_MIDDLE):
+			var direction = Vector3(0,0,0)
+			direction.x -= event.relative.y
+			direction.z -= event.relative.y
+			direction.y += event.relative.y
+			direction.x -= event.relative.x
+			direction.z += event.relative.x
+#			var camtrans_x = event.relative.x * -1
+#			var camtrans_y = event.relative.y
+			#camera_body.move_and_slide(Vector3(camtrans_x,camtrans_y,-camtrans_x))
+			camera_body.move_and_slide(direction, Vector3(0,1,0))
+			
+	if event is InputEventMouseButton:
+		if event.is_pressed():
+			if event.button_index == BUTTON_WHEEL_UP:
+				self.cam.size -= 1
+			if event.button_index == BUTTON_WHEEL_DOWN:
+				self.cam.size += 1
+			
+	

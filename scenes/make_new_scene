@@ -1,0 +1,15 @@
+#!/bin/bash
+if [ "$#" -ne 1 ]; then
+    echo "incorrect number of args"
+    exit 1
+fi
+
+if [ -d $1 ]; then
+    echo $1 "already exists"
+    exit 1
+fi
+
+echo "making $1"
+cp -r skeleton $1
+mv $1/skeleton.blend $1/$1.blend
+
