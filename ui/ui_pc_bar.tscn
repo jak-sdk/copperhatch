@@ -1,50 +1,106 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ui/pc_headbox.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ui/ui_pc_bar.gd" type="Script" id=2]
+[ext_resource path="res://ui/themes/1.tres" type="Theme" id=3]
 
 [sub_resource type="ShaderMaterial" id=1]
 
-[node name="Control" type="Control"]
+[node name="ui_pc_bar" type="Control"]
 material = SubResource( 1 )
-anchor_left = 0.158
-anchor_top = 0.798
-anchor_right = 0.921
+margin_right = 923.0
+margin_bottom = 140.0
+theme = ExtResource( 3 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pc_boxes" type="Control" parent="."]
+anchor_left = 0.184
+anchor_right = 0.787
+anchor_bottom = 1.0
+margin_left = -0.832001
+margin_right = -0.401062
+
+[node name="1" parent="pc_boxes" instance=ExtResource( 1 )]
+anchor_right = 0.269
+anchor_bottom = 0.964
+margin_right = 0.167007
+margin_bottom = 0.0399933
+rect_pivot_offset = Vector2( 13.0279, 8.76501 )
+
+[node name="2" parent="pc_boxes" instance=ExtResource( 1 )]
+anchor_left = 0.263
+anchor_top = 0.008
+anchor_right = 0.48
+anchor_bottom = 0.964
+margin_left = 0.0680542
+margin_top = -0.0605212
+margin_right = 29.1991
+margin_bottom = 1.09947
+rect_pivot_offset = Vector2( 13.0279, 8.76501 )
+
+[node name="3" parent="pc_boxes" instance=ExtResource( 1 )]
+anchor_left = 0.531
+anchor_top = 0.003
+anchor_right = 0.801
+anchor_bottom = 0.964
+margin_left = 0.176392
+margin_top = -0.0668201
+margin_right = -0.213623
+margin_bottom = 0.393173
+rect_pivot_offset = Vector2( 13.0279, 8.76501 )
+
+[node name="4" parent="pc_boxes" instance=ExtResource( 1 )]
+anchor_left = 0.796
+anchor_right = 1.065
+anchor_bottom = 0.964
+margin_left = -0.163239
+margin_top = 1.52588e-05
+margin_right = 0.00378418
+margin_bottom = 0.0400085
+rect_pivot_offset = Vector2( 13.0279, 8.76501 )
+
+[node name="5" parent="pc_boxes" instance=ExtResource( 1 )]
+anchor_left = 1.053
+anchor_right = 1.322
+anchor_bottom = 0.964
+margin_left = 0.0683594
+margin_top = 2.11894
+margin_right = 0.235413
+margin_bottom = 2.15894
+rect_pivot_offset = Vector2( 13.0279, 8.76501 )
+
+[node name="left_box" type="Control" parent="."]
+anchor_right = 0.158
+anchor_bottom = 1.012
+margin_right = 0.507446
+margin_bottom = 0.00184631
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer2" type="MarginContainer" parent="left_box"]
+anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-anchor_right = 0.888
-anchor_bottom = 1.0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="ColorRect" type="ColorRect" parent="left_box/MarginContainer2"]
+margin_right = 146.0
+margin_bottom = 141.0
 
-[node name="Label2" type="Label" parent="HBoxContainer"]
-margin_left = 221.0
-margin_top = 53.0
-margin_right = 317.0
-margin_bottom = 67.0
-text = "I am a test box"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
-margin_left = 321.0
-margin_right = 471.0
-margin_bottom = 121.0
-
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer/MarginContainer"]
-margin_right = 150.0
-margin_bottom = 121.0
-
-[node name="Label" type="Label" parent="HBoxContainer/MarginContainer"]
-margin_top = 53.0
-margin_right = 150.0
-margin_bottom = 67.0
+[node name="Label" type="Label" parent="left_box/MarginContainer2"]
+margin_top = 54.0
+margin_right = 146.0
+margin_bottom = 87.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "This is another test box"
+text = "left box"
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

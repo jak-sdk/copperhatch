@@ -27,10 +27,15 @@ camera="*res://autoload/camera.tscn"
 npcs="*res://autoload/npcs.tscn"
 game="*res://autoload/game.tscn"
 
+[debug]
+
+settings/fps/force_fps=60
+
 [display]
 
+window/size/width=3000
+window/size/height=1200
 window/size/resizable=false
-window/size/fullscreen=true
 window/vsync/use_vsync=false
 
 [input]

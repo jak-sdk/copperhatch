@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://autoload/ui.gd" type="Script" id=1]
 [ext_resource path="res://ui/scroll.gd" type="Script" id=2]
 [ext_resource path="res://ui/interact.tscn" type="PackedScene" id=3]
 [ext_resource path="res://ui/ui_pc_bar.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ui/themes/1.tres" type="Theme" id=5]
 
 [node name="ui" type="Spatial"]
 script = ExtResource( 1 )
@@ -31,21 +32,22 @@ anchor_left = 0.851
 anchor_top = 0.026
 anchor_right = 0.971
 anchor_bottom = 0.165
-margin_left = -0.424011
+margin_left = -0.42395
 margin_top = 0.4
-margin_right = -0.304077
+margin_right = -0.304016
 margin_bottom = -7.62939e-06
+theme = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ColorRect" type="ColorRect" parent="m_dialogue"]
-margin_right = 122.0
-margin_bottom = 83.0
+margin_right = 360.0
+margin_bottom = 166.0
 
 [node name="scroll" type="ScrollContainer" parent="m_dialogue"]
-margin_right = 122.0
-margin_bottom = 83.0
+margin_right = 360.0
+margin_bottom = 166.0
 grow_vertical = 0
 script = ExtResource( 2 )
 __meta__ = {
@@ -53,24 +55,26 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="m_dialogue/scroll"]
-margin_right = 97.0
-margin_bottom = 32.0
+margin_right = 186.0
+margin_bottom = 70.0
 grow_vertical = 0
 
 [node name="text" type="Label" parent="m_dialogue/scroll/VBoxContainer"]
-margin_right = 97.0
-margin_bottom = 14.0
+margin_right = 186.0
+margin_bottom = 33.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "I am a test line"
 
 [node name="text2" type="Label" parent="m_dialogue/scroll/VBoxContainer"]
-margin_top = 18.0
-margin_right = 97.0
-margin_bottom = 32.0
+margin_top = 37.0
+margin_right = 186.0
+margin_bottom = 70.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "I am a test line"
 
 [node name="ui_pc_bar" parent="." instance=ExtResource( 4 )]
-anchor_left = 0.202
-anchor_top = 0.833
-anchor_right = 0.763
+anchor_top = 0.787
+anchor_right = 0.827
+anchor_bottom = 1.0
+margin_right = 0.0
+margin_bottom = 0.0
