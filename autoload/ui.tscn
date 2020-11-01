@@ -74,7 +74,8 @@ text = "I am a test line"
 
 [node name="ui_pc_bar" parent="." instance=ExtResource( 4 )]
 anchor_top = 0.787
-anchor_right = 0.827
-anchor_bottom = 1.0
-margin_right = 0.0
-margin_bottom = 0.0
+anchor_right = 0.696
+anchor_bottom = 1.016
+margin_top = -0.400085
+margin_right = -1.0
+margin_bottom = -19.2001

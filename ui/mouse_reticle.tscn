@@ -1,0 +1,32 @@
+[gd_scene format=2]
+
+[node name="reticle" type="Control"]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2( -8.48529, 9.27025 )
+points = PoolVector2Array( -36.3604, 20.1131, -17.9756, 32.6053, 16.1579, 38.2895, 56.0349, 26.477, 66.1701, -4.63568, 55.3278, -34.8056, 29.599, -45.7278, -12.3536, -47.9752, -34.3288, -32.4927, -43.9028, -14.0638, -42.96, 5.26382, -36.8318, 19.1703 )
+width = 3.0
+
+[node name="Line2D2" type="Line2D" parent="."]
+position = Vector2( -0.215652, 0 )
+scale = Vector2( 0.92926, 1 )
+points = PoolVector2Array( -0.0485077, -29.6515, 0.248459, -13.7638 )
+width = 3.0
+
+[node name="Line2D3" type="Line2D" parent="."]
+position = Vector2( 0.296967, 39.0511 )
+points = PoolVector2Array( -0.0485077, -29.6515, 0.248459, -13.7638 )
+width = 3.0
+
+[node name="Line2D4" type="Line2D" parent="."]
+position = Vector2( 16.9271, 21.5301 )
+points = PoolVector2Array( -9.69992, -21.9304, 13.9089, -21.6334 )
+width = 3.0
+
+[node name="Line2D5" type="Line2D" parent="."]
+position = Vector2( -20.6391, 21.2331 )
+points = PoolVector2Array( -9.69992, -21.9304, 13.9089, -21.6334 )
+width = 3.0

@@ -10,7 +10,7 @@ onready var nav = ui.nav
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	connect('mouse_entered', self, '_on_foo_mouse_entered')
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -19,22 +19,6 @@ func _ready():
 
 
 func _physics_process(delta):
-#	var sdirection = Vector3(0,0,0)
-#	if Input.is_action_pressed("ui_left"):
-#		sdirection.x -= 1
-#		sdirection.z += 1
-#	if Input.is_action_pressed("ui_right"):
-#		sdirection.x += 1
-#		sdirection.z -= 1
-#	if Input.is_action_pressed("ui_up"):
-#		sdirection.x -= 1
-#		sdirection.z -= 1
-#	if Input.is_action_pressed("ui_down"):
-#		sdirection.x += 1
-#		sdirection.z += 1
-#	sdirection = sdirection.normalized()
-#	move_and_slide(sdirection*speed, Vector3(0,1,0))
-	
 	if self.path.size() > 0:
 		var step_size = delta * self.speed
 		var destination = path[0]
@@ -59,6 +43,8 @@ func move_to(point):
 	self.path = nav.get_simple_path(self.translation, point)
 	draw_path(path)
 	
+
+	
 func draw_path(path_array):
 	var m = SpatialMaterial.new()
 	m.flags_unshaded = true
@@ -78,7 +64,5 @@ func draw_path(path_array):
 	im.end()
 
 
-
-
-		
-
+func _on_foo_mouse_entered():
+	print("You moused over ", self)

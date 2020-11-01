@@ -8,68 +8,60 @@
 
 [node name="ui_pc_bar" type="Control"]
 material = SubResource( 1 )
-margin_right = 923.0
-margin_bottom = 140.0
+anchor_right = 0.315
+anchor_bottom = 0.117
+margin_right = 0.999939
+margin_bottom = -0.400009
 theme = ExtResource( 3 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="pc_boxes" type="Control" parent="."]
+[node name="pc_boxes" type="HBoxContainer" parent="."]
 anchor_left = 0.184
-anchor_right = 0.787
+anchor_right = 0.993
 anchor_bottom = 1.0
 margin_left = -0.832001
-margin_right = -0.401062
+margin_right = -195.277
 
 [node name="1" parent="pc_boxes" instance=ExtResource( 1 )]
-anchor_right = 0.269
-anchor_bottom = 0.964
-margin_right = 0.167007
-margin_bottom = 0.0399933
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 150.0
+margin_bottom = 140.0
 rect_pivot_offset = Vector2( 13.0279, 8.76501 )
 
 [node name="2" parent="pc_boxes" instance=ExtResource( 1 )]
-anchor_left = 0.263
-anchor_top = 0.008
-anchor_right = 0.48
-anchor_bottom = 0.964
-margin_left = 0.0680542
-margin_top = -0.0605212
-margin_right = 29.1991
-margin_bottom = 1.09947
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 154.0
+margin_right = 304.0
+margin_bottom = 140.0
 rect_pivot_offset = Vector2( 13.0279, 8.76501 )
 
 [node name="3" parent="pc_boxes" instance=ExtResource( 1 )]
-anchor_left = 0.531
-anchor_top = 0.003
-anchor_right = 0.801
-anchor_bottom = 0.964
-margin_left = 0.176392
-margin_top = -0.0668201
-margin_right = -0.213623
-margin_bottom = 0.393173
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 308.0
+margin_right = 458.0
+margin_bottom = 140.0
 rect_pivot_offset = Vector2( 13.0279, 8.76501 )
 
 [node name="4" parent="pc_boxes" instance=ExtResource( 1 )]
-anchor_left = 0.796
-anchor_right = 1.065
-anchor_bottom = 0.964
-margin_left = -0.163239
-margin_top = 1.52588e-05
-margin_right = 0.00378418
-margin_bottom = 0.0400085
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 462.0
+margin_right = 612.0
+margin_bottom = 140.0
 rect_pivot_offset = Vector2( 13.0279, 8.76501 )
 
 [node name="5" parent="pc_boxes" instance=ExtResource( 1 )]
-anchor_left = 1.053
-anchor_right = 1.322
-anchor_bottom = 0.964
-margin_left = 0.0683594
-margin_top = 2.11894
-margin_right = 0.235413
-margin_bottom = 2.15894
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 616.0
+margin_right = 766.0
+margin_bottom = 140.0
 rect_pivot_offset = Vector2( 13.0279, 8.76501 )
 
 [node name="left_box" type="Control" parent="."]
@@ -90,12 +82,12 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="left_box/MarginContainer2"]
-margin_right = 146.0
+margin_right = 149.0
 margin_bottom = 141.0
 
 [node name="Label" type="Label" parent="left_box/MarginContainer2"]
 margin_top = 54.0
-margin_right = 146.0
+margin_right = 149.0
 margin_bottom = 87.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "left box"
