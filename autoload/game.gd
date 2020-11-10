@@ -3,8 +3,7 @@ extends Spatial
 # game mode 
 # FREE - free roam, everything is like
 # TURN - turn based encounter
-# PAUS - paused (needed?)
-#
+# PAUS - paused (needed? godot has global pause) 
 var state = "FREE"
 	
 

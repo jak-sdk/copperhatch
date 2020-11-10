@@ -29,13 +29,14 @@ game="*res://autoload/game.tscn"
 
 [debug]
 
-settings/fps/force_fps=60
+settings/stdout/print_fps=true
 
 [display]
 
 window/size/width=3000
 window/size/height=1200
 window/size/resizable=false
+window/dpi/allow_hidpi=true
 window/vsync/use_vsync=false
 
 [input]

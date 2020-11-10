@@ -3,8 +3,6 @@ extends KinematicBody
 var path = []
 var speed = 15
 
-onready var camera = get_node('/root/test3/camerak/camera')
-
 onready var nav = ui.nav
 
 
@@ -66,3 +64,9 @@ func draw_path(path_array):
 
 func _on_foo_mouse_entered():
 	print("You moused over ", self)
+	ui.enemy_enter_mouse_over(self)
+
+func _on_foo_mouse_exited():
+	# ERROR this doesn't work for some reason
+	print("Your mouse left ", self)
+	ui.enemy_exit_mouse_over(self)
