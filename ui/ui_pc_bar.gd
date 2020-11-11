@@ -4,7 +4,6 @@ extends Control
 func refresh_headboxes():
 	var pc_list = pcs.get_pcs()
 	for i in range(1,6):
-		print(i)
 		if i <= pc_list.size():
 			set_headbox(i,pc_list[i-1])
 			#get_node("pc_boxes/"+str(i)).display(pc_list[i-1])

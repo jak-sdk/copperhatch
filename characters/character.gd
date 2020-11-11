@@ -4,6 +4,11 @@ var path = []
 var speed = 15
 
 onready var nav = ui.nav
+onready var space = game.get_world().direct_space_state
+
+onready var shoot_ray_canvas = draw.get_node("shoot_rays")
+
+var rng = RandomNumberGenerator.new()
 
 
 # Called when the node enters the scene tree for the first time.
@@ -38,35 +43,69 @@ func _input(event):
 	pass
 	
 func move_to(point):
-	self.path = nav.get_simple_path(self.translation, point)
+	self.path = self.get_path_to(point)
 	draw_path(path)
-	
+
+func get_path_to(point):
+	return nav.get_simple_path(self.translation, point)
 
 	
 func draw_path(path_array):
-	var m = SpatialMaterial.new()
-	m.flags_unshaded = true
-	m.flags_use_point_size = true
-	m.albedo_color = Color.white
-
-	var im = nav.get_node("Draw")
-	im.set_material_override(m)
+	var im = draw.path
 	im.clear()
 	im.begin(Mesh.PRIMITIVE_POINTS, null)
 	im.add_vertex(path_array[0])
 	im.add_vertex(path_array[path_array.size() - 1])
 	im.end()
 	im.begin(Mesh.PRIMITIVE_LINE_STRIP, null)
-	for x in path:
+	for x in path_array:
 		im.add_vertex(x)
 	im.end()
 
 
 func _on_foo_mouse_entered():
 	print("You moused over ", self)
-	ui.enemy_enter_mouse_over(self)
+	if self.is_npc():
+		ui.enemy_enter_mouse_over(self)
+
+func is_npc():
+	return !self.is_pc()
+
+func is_pc():
+	return pcs.is_pc(self)
 
 func _on_foo_mouse_exited():
 	# ERROR this doesn't work for some reason
-	print("Your mouse left ", self)
+	#print("Your mouse left ", self)
 	ui.enemy_exit_mouse_over(self)
+	
+func fire_at(character, shots = 1):
+	# lets try to keep our shots in a cone
+	# angle deviation is a function of: skill, ap spent on shot
+
+	shoot_ray_canvas.clear()
+	
+	var potential_shots = []
+	rng.randomize()
+	for i in range(10):
+		var deviation = Vector3(rng.randf_range(-1, 1),
+								rng.randf_range(-1, 1),
+								rng.randf_range(-1, 1))
+		var direction_to_target = character.translation - self.translation
+		
+		var shootdir = direction_to_target.normalized() + (0.1 * deviation)
+		var ray = space.intersect_ray(self.translation, shootdir*100)
+		potential_shots.append(ray)
+		
+		shoot_ray_canvas.begin(Mesh.PRIMITIVE_LINE_STRIP, null)
+		if ray.size() > 0:
+			shoot_ray_canvas.set_color(ColorN("red"))
+			print(" we got im")
+		else:
+			shoot_ray_canvas.set_color(ColorN("white"))
+		
+		shoot_ray_canvas.add_vertex(self.translation)
+		shoot_ray_canvas.add_vertex(shootdir*50)
+		shoot_ray_canvas.end()
+		#print(ray)
+		
