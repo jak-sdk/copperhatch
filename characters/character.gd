@@ -11,6 +11,11 @@ onready var shoot_ray_canvas = draw.get_node("shoot_rays")
 var rng = RandomNumberGenerator.new()
 
 
+## 
+onready var health = 100
+onready var ap = 100
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	connect('mouse_entered', self, '_on_foo_mouse_entered')
@@ -46,10 +51,40 @@ func move_to(point):
 	self.path = self.get_path_to(point)
 	draw_path(path)
 
-func get_path_to(point):
-	return nav.get_simple_path(self.translation, point)
+func available_move_distance():
+	# posture (crouch, prone, stand, run)
+	# wounds
+	# weight
+	# terrain?
+	return 15 #self.ap/3.0
 
+func get_path_to(point, limit_by_ap=true):
+	var move_limit = self.available_move_distance()
 	
+	var init_path_to = nav.get_simple_path(self.translation, point)
+	var path_to = []
+	
+	if limit_by_ap == false:
+		path_to = init_path_to
+		
+	if limit_by_ap == true:
+		var distance = 0
+		var prev_point = init_path_to[0]
+
+		for i in init_path_to:
+			var next_step = (i - prev_point).length()
+			if distance + next_step > move_limit:
+				# we can actually move
+				var restrict_step_to = move_limit - distance
+				path_to.append((i - prev_point).normalized() * restrict_step_to + prev_point)
+				break
+			else:
+				path_to.append(i)
+				distance += next_step
+				prev_point = i
+	return path_to
+	
+
 func draw_path(path_array):
 	var im = draw.path
 	im.clear()
@@ -61,7 +96,6 @@ func draw_path(path_array):
 	for x in path_array:
 		im.add_vertex(x)
 	im.end()
-
 
 func _on_foo_mouse_entered():
 	print("You moused over ", self)

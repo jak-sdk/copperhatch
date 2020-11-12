@@ -16,16 +16,3 @@ func is_npc(obj):
 	for npc in npc_list:
 		if obj == npc:
 			return true
-	
-#func next_pc():
-#	if selected_pc >= pc_list.size() - 1:
-#		selected_pc = 0;
-#	else:
-#		selected_pc += 1
-#	print("next pc ", selected_pc)
-#func prev_pc():
-#	if selected_pc == 0:
-#		selected_pc = pc_list.size() - 1;
-#	else:
-#		selected_pc -= 1
-#	print("prev pc ", selected_pc)

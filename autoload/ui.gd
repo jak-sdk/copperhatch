@@ -25,22 +25,23 @@ func _unhandled_input(event):
 	# mouse movement triggers checks
 	if event is InputEventMouseMotion:
 		var from = camera.cam.project_ray_origin(event.position)
-		var to = from + camera.cam.project_ray_normal(event.position) * 1000
+		var to = from + camera.cam.project_ray_normal(event.position) * 100
 
 		# figure out what we are interacting with
 		var ray_result = space.intersect_ray(from, to)
 		if ray_result.size() > 0: # we hit something
 			#print("We are mousing over", ray_result)
+			# right now we offload to object.on_mouseEntered signal to trigger this stuff
 			pass
 		else:
 			# we aren't over anything
 			# generic function mouse_over_nothing()??
+			#   we should have a re-usable function for clearing the slate
 			self.mouse_over = null
 			$m_fire_reticle.set_visible(false)
-			draw_path_to(pcs.get_selected_pc().get_path_to(nav.get_closest_point_to_segment(from, to)))
 			self.ui_rc_action = null
 			
-
+			draw_move_path_to(nav.get_closest_point_to_segment(from, to))
 
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.pressed:
 		var current_character = pcs.get_selected_pc() 
@@ -84,7 +85,24 @@ func enemy_enter_mouse_over(enemy):
 func enemy_exit_mouse_over(enemy):
 	$m_fire_reticle.set_visible(false)
 	
-func draw_path_to(path_array):	
+	
+func draw_move_path_to(point):
+	# if we're in free roam
+	#   : move path can be as far as you like
+	# or encounter
+	#   : move path is limited by available AP
+	var move_path = [] 
+	
+	if game.state == "TURN":
+		#cut the path short by ap
+		move_path = pcs.get_selected_pc().get_path_to(point, true)
+	#elif game.state == "FREE":
+	else:
+		move_path = pcs.get_selected_pc().get_path_to(point)
+	
+	draw_path(move_path)
+	
+func draw_path(path_array):
 	var im = draw.path
 	im.clear()
 	im.begin(Mesh.PRIMITIVE_POINTS, null)
