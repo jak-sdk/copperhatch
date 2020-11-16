@@ -122,11 +122,22 @@ func _on_foo_mouse_exited():
 	#print("Your mouse left ", self)
 	ui.enemy_exit_mouse_over(self)
 
-func attack():
+func attack(enemy, ap_spend, attack_type):
 	# this uses the precalculated attack we used earlier to provide a hit chance
-	
+	# lookup in the cache for the specified params
+	# if cache miss.. then something has gone horribly wrong
+	# where does damage come from?
 	pass
 	
+
+# how does this work, we predict an attack against the ground??
+func free_fire(): # TODO
+	pass
+	
+# this is going to be an arc, with a bounce or two? 
+# how much do we sim a throw
+func throw(): # TODO
+	pass
 
 func predict_attack(character, shots = 1):
 	# this function creates a firing solution that we can query
