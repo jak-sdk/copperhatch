@@ -15,6 +15,13 @@ var rng = RandomNumberGenerator.new()
 onready var health = 100
 onready var ap = 100
 
+
+# Attacking may need it's own script eventually
+# we should cache an attack based on 
+#  - who it's against 
+#  - the desired AP spend
+#  - single, burst, auto with x bullets 
+# if we move, clear the cache (signal?) we're unlikely to ever come back the the same spot (unless we switch to grid based movement...)
 var attack_cache = {}
 
 
@@ -53,7 +60,7 @@ func move_to(point):
 	self.path = self.get_path_to(point)
 	draw_path(path)
 
-func available_move_distance():
+func available_move_distance(): # TODO
 	# posture (crouch, prone, stand, run)
 	# wounds
 	# weight
@@ -122,7 +129,7 @@ func attack():
 	
 
 func predict_attack(character, shots = 1):
-	# this function created a firing solution that we can query
+	# this function creates a firing solution that we can query
 	# for calculating hit chance 
 	
 	# lets try to keep our shots in a cone
@@ -148,7 +155,7 @@ func predict_attack(character, shots = 1):
 			var shootdir = direction_to_target.normalized() + (0.03 * deviation)
 			ray = space.intersect_ray(self.translation, shootdir*100)
 			
-			# each shot should affect the next bullet like ricochet
+			# TODO each shot should affect the next bullet like ricochet
 			# gun recoil - character strength? 
 			# Does skill affect it? maybe extremely low skill will affect it badly
 			#   but after being somewhat proficient you know how to steady a gun and then raw strength takes over
