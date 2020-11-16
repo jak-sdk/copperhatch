@@ -15,6 +15,8 @@ var rng = RandomNumberGenerator.new()
 onready var health = 100
 onready var ap = 100
 
+var attack_cache = {}
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -112,34 +114,74 @@ func _on_foo_mouse_exited():
 	# ERROR this doesn't work for some reason
 	#print("Your mouse left ", self)
 	ui.enemy_exit_mouse_over(self)
+
+func attack():
+	# this uses the precalculated attack we used earlier to provide a hit chance
 	
-func fire_at(character, shots = 1):
+	pass
+	
+
+func predict_attack(character, shots = 1):
+	# this function created a firing solution that we can query
+	# for calculating hit chance 
+	
 	# lets try to keep our shots in a cone
 	# angle deviation is a function of: skill, ap spent on shot
+	var number_of_simulations = 3
 
 	shoot_ray_canvas.clear()
 	
 	var potential_shots = []
 	rng.randomize()
-	for i in range(10):
+	for i in range(number_of_simulations):
+		var potential_shot = {}
+		potential_shot['shots'] = []
+		potential_shot['hit'] = false
+		
 		var deviation = Vector3(rng.randf_range(-1, 1),
 								rng.randf_range(-1, 1),
 								rng.randf_range(-1, 1))
 		var direction_to_target = character.translation - self.translation
+		var ray = null
+		var hits = 0
+		for shot in range(shots):
+			var shootdir = direction_to_target.normalized() + (0.03 * deviation)
+			ray = space.intersect_ray(self.translation, shootdir*100)
+			
+			# each shot should affect the next bullet like ricochet
+			# gun recoil - character strength? 
+			# Does skill affect it? maybe extremely low skill will affect it badly
+			#   but after being somewhat proficient you know how to steady a gun and then raw strength takes over
+			deviation.y += 0.5
+			
+			potential_shot['shots'].append(ray)
+			
+			if ray.size() > 0:
+				#draw_shot(shootdir, 'red')
+				hits+=1
+			else:
+				pass
+				#draw_shot(shootdir, 'white')
+				
+		if hits > 0:
+			potential_shot['hit'] = true
+		potential_shots.append(potential_shot)
 		
-		var shootdir = direction_to_target.normalized() + (0.1 * deviation)
-		var ray = space.intersect_ray(self.translation, shootdir*100)
-		potential_shots.append(ray)
+	var chance_to_hit = 0
+	var simulations_that_hit = 0
+	for i in range(number_of_simulations):
+		if potential_shots[i]['hit'] == true:
+			simulations_that_hit +=1
+	
+	chance_to_hit = float(simulations_that_hit) / float(number_of_simulations)
+	print(chance_to_hit)
+	
+	self.attack_cache = potential_shots
+			
 		
-		shoot_ray_canvas.begin(Mesh.PRIMITIVE_LINE_STRIP, null)
-		if ray.size() > 0:
-			shoot_ray_canvas.set_color(ColorN("red"))
-			print(" we got im")
-		else:
-			shoot_ray_canvas.set_color(ColorN("white"))
-		
-		shoot_ray_canvas.add_vertex(self.translation)
-		shoot_ray_canvas.add_vertex(shootdir*50)
-		shoot_ray_canvas.end()
-		#print(ray)
-		
+func draw_shot(shootdir, color="white"):
+	shoot_ray_canvas.begin(Mesh.PRIMITIVE_LINE_STRIP, null)
+	shoot_ray_canvas.set_color(ColorN(color))
+	shoot_ray_canvas.add_vertex(self.translation)
+	shoot_ray_canvas.add_vertex(shootdir*50)
+	shoot_ray_canvas.end()

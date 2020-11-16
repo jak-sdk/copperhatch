@@ -60,7 +60,7 @@ func _unhandled_input(event):
 			elif npcs.is_npc(ray_result['collider']):
 				print("we clicked on an npc, attack??")
 				if self.ui_rc_action == "FIRE":
-					pcs.get_selected_pc().fire_at(ray_result['collider'])
+					pcs.get_selected_pc().attack(ray_result['collider'])
 			print(ray_result)
 		else: # we've clicked on a spot
 			# figure out what we need to do
@@ -81,6 +81,7 @@ func enemy_enter_mouse_over(enemy):
 	self.mouse_over = enemy
 	draw.get_node('path')
 	self.ui_rc_action = "FIRE"
+	pcs.get_selected_pc().predict_attack(enemy, 3)
 	
 func enemy_exit_mouse_over(enemy):
 	$m_fire_reticle.set_visible(false)
