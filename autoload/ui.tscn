@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://autoload/ui.gd" type="Script" id=1]
 [ext_resource path="res://ui/scroll.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://ui/ui_pc_bar.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/themes/1.tres" type="Theme" id=5]
 [ext_resource path="res://ui/mouse_reticle.tscn" type="PackedScene" id=6]
+[ext_resource path="res://autoload/m_fire_reticle.gd" type="Script" id=7]
 
 [node name="ui" type="Spatial"]
 script = ExtResource( 1 )
@@ -13,6 +14,7 @@ script = ExtResource( 1 )
 [node name="m_fire_reticle" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
+script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

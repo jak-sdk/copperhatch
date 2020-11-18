@@ -45,7 +45,7 @@ func _unhandled_input(event):
 
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.pressed:
 		var current_character = pcs.get_selected_pc() 
-		print("right click")
+		# right click
 		
 		var from = camera.cam.project_ray_origin(event.position)
 		var to = from + camera.cam.project_ray_normal(event.position) * 1000
@@ -60,8 +60,9 @@ func _unhandled_input(event):
 			elif npcs.is_npc(ray_result['collider']):
 				print("we clicked on an npc, attack??")
 				if self.ui_rc_action == "FIRE":
-					pcs.get_selected_pc().attack(ray_result['collider'])
+					pcs.get_selected_pc().attack(ray_result['collider'], $m_fire_reticle.ap_spend) # use current ap spend and weapon type
 			print(ray_result)
+			
 		else: # we've clicked on a spot
 			# figure out what we need to do
 			if self.ui_rc_action == null: # default action, move?
@@ -72,16 +73,22 @@ func _unhandled_input(event):
 				var target_point = nav.get_closest_point_to_segment(from, to)
 				print("making ", current_character.name, " look at ", target_point)
 				current_character.look_at(target_point, Vector3.UP)
+	
+	if event is InputEventMouseButton and self.ui_rc_action == null:
+		if event.button_index == BUTTON_WHEEL_UP:
+			camera.cam.size -= 1
+		if event.button_index == BUTTON_WHEEL_DOWN:
+			camera.cam.size += 1
+	if event is InputEventMouseButton and self.ui_rc_action == "FIRE":
+		if event.button_index == BUTTON_WHEEL_UP:
+			$m_fire_reticle.increase_aim_spend()
+		if event.button_index == BUTTON_WHEEL_DOWN:
+			$m_fire_reticle.decrease_aim_spend()
 
 func enemy_enter_mouse_over(enemy):
-	var screenpos = camera.cam.unproject_position(enemy.translation)
-	$m_fire_reticle.set_position(screenpos) #Vector2(screenpos.x, screenpos.y)
-	#$m_dialogue/scroll.add_message("You aim at ...")
-	$m_fire_reticle.set_visible(true)
+	$m_fire_reticle.aim_at(enemy)
 	self.mouse_over = enemy
-	draw.get_node('path')
 	self.ui_rc_action = "FIRE"
-	pcs.get_selected_pc().predict_attack(enemy, 3)
 	
 func enemy_exit_mouse_over(enemy):
 	$m_fire_reticle.set_visible(false)

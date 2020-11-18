@@ -48,7 +48,7 @@ func _input(event):
 			#camera_body.move_and_slide(Vector3(camtrans_x,camtrans_y,-camtrans_x))
 			camera_body.move_and_slide(direction, Vector3(0,1,0))
 			
-	if event is InputEventMouseButton:
+	if null and event is InputEventMouseButton:
 		if event.is_pressed():
 			if event.button_index == BUTTON_WHEEL_UP:
 				self.cam.size -= 1

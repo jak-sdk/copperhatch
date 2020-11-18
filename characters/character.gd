@@ -52,6 +52,7 @@ func _physics_process(delta):
 		if direction:
 			var look_at_point = translation + direction.normalized()
 			look_at(look_at_point, Vector3.UP)
+		clear_caches()
 	
 func _input(event):
 	pass
@@ -122,11 +123,18 @@ func _on_foo_mouse_exited():
 	#print("Your mouse left ", self)
 	ui.enemy_exit_mouse_over(self)
 
-func attack(enemy, ap_spend, attack_type):
+func attack(enemy, ap_spend = 10, attack_type = 'single'):
 	# this uses the precalculated attack we used earlier to provide a hit chance
 	# lookup in the cache for the specified params
 	# if cache miss.. then something has gone horribly wrong
 	# where does damage come from?
+	print(attack_cache.keys())
+	var nattack = attack_cache[enemy.name+","+str(ap_spend)+","+attack_type]['shot']
+	for shot in nattack['shots']:
+		if shot['hit']:
+			draw_shot(shot['shootdir'], 'red')
+		else:
+			draw_shot(shot['shootdir'], 'white')
 	pass
 	
 
@@ -139,13 +147,22 @@ func free_fire(): # TODO
 func throw(): # TODO
 	pass
 
-func predict_attack(character, shots = 1):
+func predict_attack(character, ap_spend=10, attack_type='single', shots = 1):
+	if attack_cache.has(character.name+","+str(ap_spend)+","+attack_type):
+		print("already cached, pass")
+		return
+	
 	# this function creates a firing solution that we can query
 	# for calculating hit chance 
 	
+	# accuracy is a function of
+	# - skill + ap_spend
+	# for now 10ap = 1.2, 90ap = 0.8
+	var accuracy_scaler = ap_spend * -0.005 + 1.21
+	
 	# lets try to keep our shots in a cone
 	# angle deviation is a function of: skill, ap spent on shot
-	var number_of_simulations = 3
+	var number_of_simulations = 1000
 
 	shoot_ray_canvas.clear()
 	
@@ -159,11 +176,13 @@ func predict_attack(character, shots = 1):
 		var deviation = Vector3(rng.randf_range(-1, 1),
 								rng.randf_range(-1, 1),
 								rng.randf_range(-1, 1))
+								
 		var direction_to_target = character.translation - self.translation
 		var ray = null
 		var hits = 0
-		for shot in range(shots):
-			var shootdir = direction_to_target.normalized() + (0.03 * deviation)
+		
+		for shot in range(shots):			
+			var shootdir = direction_to_target.normalized() + (0.03 * deviation * accuracy_scaler)
 			ray = space.intersect_ray(self.translation, shootdir*100)
 			
 			# TODO each shot should affect the next bullet like ricochet
@@ -172,7 +191,7 @@ func predict_attack(character, shots = 1):
 			#   but after being somewhat proficient you know how to steady a gun and then raw strength takes over
 			deviation.y += 0.5
 			
-			potential_shot['shots'].append(ray)
+			potential_shot['shots'].append({'ray':ray, 'shootdir': shootdir, 'hit': ray.size() > 0})
 			
 			if ray.size() > 0:
 				#draw_shot(shootdir, 'red')
@@ -194,9 +213,12 @@ func predict_attack(character, shots = 1):
 	chance_to_hit = float(simulations_that_hit) / float(number_of_simulations)
 	print(chance_to_hit)
 	
-	self.attack_cache = potential_shots
+	self.attack_cache[character.name+","+str(ap_spend)+","+attack_type] = {'chance_to_hit':chance_to_hit, 'shot':potential_shots[0]}
 			
-		
+
+func clear_caches():
+	self.attack_cache = {}
+
 func draw_shot(shootdir, color="white"):
 	shoot_ray_canvas.begin(Mesh.PRIMITIVE_LINE_STRIP, null)
 	shoot_ray_canvas.set_color(ColorN(color))
