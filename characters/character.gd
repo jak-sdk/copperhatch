@@ -15,7 +15,7 @@ var rng = RandomNumberGenerator.new()
 
 ## 
 onready var health = 100
-onready var ap = 100
+onready var ap = 200
 
 
 # Attacking may need it's own script eventually
