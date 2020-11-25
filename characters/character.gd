@@ -4,9 +4,11 @@ var path = []
 var speed = 15
 
 onready var nav = ui.nav
-onready var space = game.get_world().direct_space_state
+#onready var space = game.get_world().direct_space_state
 
 onready var shoot_ray_canvas = draw.get_node("shoot_rays")
+
+onready var hitbox = get_node("hitbox")
 
 var rng = RandomNumberGenerator.new()
 
@@ -34,6 +36,11 @@ func _ready():
 #func _process(delta):
 #	pass
 
+func location():
+	return self.hitbox.get_global_transform().origin
+	
+func space():
+	return game.get_world().direct_space_state
 
 func _physics_process(delta):
 	if self.path.size() > 0:
@@ -50,7 +57,7 @@ func _physics_process(delta):
 		move_and_slide(direction.normalized() * step_size / delta, Vector3.UP)
 		direction.y = 0
 		if direction:
-			var look_at_point = translation + direction.normalized()
+			var look_at_point = translation - direction.normalized()
 			look_at(look_at_point, Vector3.UP)
 		clear_caches()
 	
@@ -150,7 +157,7 @@ func throw(): # TODO
 func predict_attack(character, ap_spend=10, attack_type='single', shots = 1):
 	if attack_cache.has(character.name+","+str(ap_spend)+","+attack_type):
 		print("already cached, pass")
-		return
+		#return
 	
 	# this function creates a firing solution that we can query
 	# for calculating hit chance 
@@ -162,7 +169,7 @@ func predict_attack(character, ap_spend=10, attack_type='single', shots = 1):
 	
 	# lets try to keep our shots in a cone
 	# angle deviation is a function of: skill, ap spent on shot
-	var number_of_simulations = 1000
+	var number_of_simulations = 150
 
 	shoot_ray_canvas.clear()
 	
@@ -177,13 +184,15 @@ func predict_attack(character, ap_spend=10, attack_type='single', shots = 1):
 								rng.randf_range(-1, 1),
 								rng.randf_range(-1, 1))
 								
-		var direction_to_target = character.translation - self.translation
+		var direction_to_target = character.location() - self.location()
+		
 		var ray = null
 		var hits = 0
 		
-		for shot in range(shots):			
-			var shootdir = direction_to_target.normalized() + (0.03 * deviation * accuracy_scaler)
-			ray = space.intersect_ray(self.translation, shootdir*100)
+		for shot in range(shots):
+			#var shootdir = direction_to_target.normalized() + (0.03 * deviation * accuracy_scaler)
+			var shootdir = direction_to_target + 0.5*deviation * accuracy_scaler
+			ray = space().intersect_ray(self.location() + shootdir*0.1, self.location() + shootdir*5, [self])
 			
 			# TODO each shot should affect the next bullet like ricochet
 			# gun recoil - character strength? 
@@ -194,11 +203,11 @@ func predict_attack(character, ap_spend=10, attack_type='single', shots = 1):
 			potential_shot['shots'].append({'ray':ray, 'shootdir': shootdir, 'hit': ray.size() > 0})
 			
 			if ray.size() > 0:
-				#draw_shot(shootdir, 'red')
+				draw_shot(shootdir, 'red')
 				hits+=1
 			else:
 				pass
-				#draw_shot(shootdir, 'white')
+				draw_shot(shootdir, 'white')
 				
 		if hits > 0:
 			potential_shot['hit'] = true
@@ -222,6 +231,6 @@ func clear_caches():
 func draw_shot(shootdir, color="white"):
 	shoot_ray_canvas.begin(Mesh.PRIMITIVE_LINE_STRIP, null)
 	shoot_ray_canvas.set_color(ColorN(color))
-	shoot_ray_canvas.add_vertex(self.translation)
-	shoot_ray_canvas.add_vertex(shootdir*50)
+	shoot_ray_canvas.add_vertex(self.location()+shootdir*0.1)
+	shoot_ray_canvas.add_vertex(self.location()+shootdir*5)
 	shoot_ray_canvas.end()

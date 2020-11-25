@@ -28,15 +28,20 @@ func set_accuracy():
 	
 	var chance_to_hit = cc.attack_cache[self.aiming_at.name+","+str(self.ap_spend)+","+self.attack_type]['chance_to_hit']
 	# 0 -> scale:6   1 -> scale:0.3
+	
 	var reticle_scale = -5.7 * chance_to_hit + 6
-	get_node('reticle/circle').scale = Vector2(reticle_scale, reticle_scale)
+	get_node('reticle/reticle').rect_scale = Vector2(reticle_scale, reticle_scale)
 	
 	$reticle/hit_chance_label.text = str(round(chance_to_hit*100)) + "%"
 
 func increase_aim_spend():
+	var old_ap_spend = self.ap_spend
 	self.ap_spend = min(ap_spend + 10, pcs.get_selected_pc().ap)
-	set_accuracy()
+	if self.ap_spend != old_ap_spend:
+		set_accuracy()
 	
 func decrease_aim_spend():
+	var old_ap_spend = self.ap_spend
 	self.ap_spend = max(ap_spend - 10, 10)
-	set_accuracy()
+	if self.ap_spend != old_ap_spend:
+		set_accuracy()
