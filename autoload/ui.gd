@@ -84,6 +84,11 @@ func _unhandled_input(event):
 			$m_fire_reticle.increase_aim_spend()
 		if event.button_index == BUTTON_WHEEL_DOWN:
 			$m_fire_reticle.decrease_aim_spend()
+			
+	if event.is_action_pressed("ui_crouch"):
+		pcs.get_selected_pc().crouch()
+	if event.is_action_pressed("ui_stand"):
+		pcs.get_selected_pc().stand()
 
 func enemy_enter_mouse_over(enemy):
 	$m_fire_reticle.aim_at(enemy)

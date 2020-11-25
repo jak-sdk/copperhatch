@@ -10,6 +10,11 @@ onready var shoot_ray_canvas = draw.get_node("shoot_rays")
 
 onready var hitbox = get_node("hitbox")
 
+# STAND CROUCH PRONE
+onready var stance = "STAND"
+# RUN WALK CROUCH
+onready var move_gait = "WALK"
+
 var rng = RandomNumberGenerator.new()
 
 
@@ -234,3 +239,15 @@ func draw_shot(shootdir, color="white"):
 	shoot_ray_canvas.add_vertex(self.location()+shootdir*0.1)
 	shoot_ray_canvas.add_vertex(self.location()+shootdir*5)
 	shoot_ray_canvas.end()
+	
+func crouch():
+	print("crouching")
+	print(get_node("skeleton/AnimationTree")['parameters/Transition/current'])
+	self.move_gait = "CROUCH"
+	self.stance = "CROUCH"
+	self.get_node("skeleton/AnimationTree")['parameters/Transition/current'] = 1
+
+func stand():
+	self.stance = "STAND"
+	self.move_gait = "WALK"
+	self.get_node("skeleton/AnimationTree")['parameters/Transition/current'] = 0
