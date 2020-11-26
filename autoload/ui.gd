@@ -14,14 +14,20 @@ onready var ui_rc_action = null #"LOOK"
 var mouse_over = null
 
 func _ready():
+	$b_end_turn.connect("pressed", self, "player_end_turn")
 	pass # Replace with function body.
 
 func _unhandled_input(event):
-	if event.is_action_pressed("ui_next_pc"):
-		pcs.next_pc()
-	elif event.is_action_pressed("ui_prev_pc"):
-		pcs.prev_pc()
+	events_always_available(event)
+	if game.player_can_interact():
+		events_onturn_available(event)
 
+func events_always_available(event):
+	if event is InputEventMouseButton and self.ui_rc_action == null:
+		if event.button_index == BUTTON_WHEEL_UP:
+			camera.cam.size -= 1
+		if event.button_index == BUTTON_WHEEL_DOWN:
+			camera.cam.size += 1
 	# mouse movement triggers checks
 	if event is InputEventMouseMotion:
 		var from = camera.cam.project_ray_origin(event.position)
@@ -40,9 +46,25 @@ func _unhandled_input(event):
 			self.mouse_over = null
 			$m_fire_reticle.set_visible(false)
 			self.ui_rc_action = null
-			
 			draw_move_path_to(nav.get_closest_point_to_segment(from, to))
+	if event.is_action_pressed("ui_next_pc"):
+		pcs.next_pc()
+	elif event.is_action_pressed("ui_prev_pc"):
+		pcs.prev_pc()
+	pass
+	
+func events_onturn_available(event):
+	if event.is_action_pressed("ui_crouch"):
+		pcs.get_selected_pc().crouch()
+	if event.is_action_pressed("ui_stand"):
+		pcs.get_selected_pc().stand()
 
+	if event is InputEventMouseButton and self.ui_rc_action == "FIRE":
+		if event.button_index == BUTTON_WHEEL_UP:
+			$m_fire_reticle.increase_aim_spend()
+		if event.button_index == BUTTON_WHEEL_DOWN:
+			$m_fire_reticle.decrease_aim_spend()
+			
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.pressed:
 		var current_character = pcs.get_selected_pc() 
 		# right click
@@ -73,22 +95,7 @@ func _unhandled_input(event):
 				var target_point = nav.get_closest_point_to_segment(from, to)
 				print("making ", current_character.name, " look at ", target_point)
 				current_character.look_at(target_point, Vector3.UP)
-	
-	if event is InputEventMouseButton and self.ui_rc_action == null:
-		if event.button_index == BUTTON_WHEEL_UP:
-			camera.cam.size -= 1
-		if event.button_index == BUTTON_WHEEL_DOWN:
-			camera.cam.size += 1
-	if event is InputEventMouseButton and self.ui_rc_action == "FIRE":
-		if event.button_index == BUTTON_WHEEL_UP:
-			$m_fire_reticle.increase_aim_spend()
-		if event.button_index == BUTTON_WHEEL_DOWN:
-			$m_fire_reticle.decrease_aim_spend()
-			
-	if event.is_action_pressed("ui_crouch"):
-		pcs.get_selected_pc().crouch()
-	if event.is_action_pressed("ui_stand"):
-		pcs.get_selected_pc().stand()
+	pass
 
 func enemy_enter_mouse_over(enemy):
 	$m_fire_reticle.aim_at(enemy)
@@ -97,19 +104,20 @@ func enemy_enter_mouse_over(enemy):
 	
 func enemy_exit_mouse_over(enemy):
 	$m_fire_reticle.set_visible(false)
-	
-	
+
+func player_end_turn():
+	game.player_end_turn()
+
+
 func draw_move_path_to(point):
 	# if we're in free roam
 	#   : move path can be as far as you like
 	# or encounter
 	#   : move path is limited by available AP
 	var move_path = [] 
-	
 	if game.state == "TURN":
 		#cut the path short by ap
 		move_path = pcs.get_selected_pc().get_path_to(point, true)
-	#elif game.state == "FREE":
 	else:
 		move_path = pcs.get_selected_pc().get_path_to(point)
 	

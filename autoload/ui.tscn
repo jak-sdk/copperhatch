@@ -91,3 +91,16 @@ anchor_bottom = 1.016
 margin_top = -0.400085
 margin_right = -1.0
 margin_bottom = -19.2001
+
+[node name="b_end_turn" type="Button" parent="."]
+anchor_left = 0.407
+anchor_top = 0.794
+anchor_right = 0.461
+anchor_bottom = 0.911
+margin_top = 0.199951
+margin_right = 0.999878
+margin_bottom = -0.200073
+text = "End Turn"
+__meta__ = {
+"_edit_use_anchors_": false
+}

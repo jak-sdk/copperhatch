@@ -80,7 +80,7 @@ func available_move_distance(): # TODO
 	# terrain?
 	return 15 #self.ap/3.0
 
-func get_path_to(point, limit_by_ap=true):
+func get_path_to(point, limit_by_ap=false):
 	var move_limit = self.available_move_distance()
 	
 	var init_path_to = nav.get_simple_path(self.translation, point)
@@ -188,7 +188,7 @@ func predict_attack(character, ap_spend=10, attack_type='single', shots = 1):
 		var deviation = Vector3(rng.randf_range(-1, 1),
 								rng.randf_range(-1, 1),
 								rng.randf_range(-1, 1))
-								
+
 		var direction_to_target = character.location() - self.location()
 		
 		var ray = null
@@ -208,11 +208,11 @@ func predict_attack(character, ap_spend=10, attack_type='single', shots = 1):
 			potential_shot['shots'].append({'ray':ray, 'shootdir': shootdir, 'hit': ray.size() > 0})
 			
 			if ray.size() > 0:
-				draw_shot(shootdir, 'red')
+				#draw_shot(shootdir, 'red')
 				hits+=1
 			else:
 				pass
-				draw_shot(shootdir, 'white')
+				#draw_shot(shootdir, 'white')
 				
 		if hits > 0:
 			potential_shot['hit'] = true
