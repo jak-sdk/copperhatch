@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://autoload/ui.gd" type="Script" id=1]
 [ext_resource path="res://ui/scroll.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://ui/themes/1.tres" type="Theme" id=5]
 [ext_resource path="res://ui/mouse_reticle.tscn" type="PackedScene" id=6]
 [ext_resource path="res://autoload/m_fire_reticle.gd" type="Script" id=7]
+[ext_resource path="res://ui/state_indicator.tscn" type="PackedScene" id=8]
 
 [node name="ui" type="Spatial"]
 script = ExtResource( 1 )
@@ -104,3 +105,5 @@ text = "End Turn"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="state_indicator" parent="." instance=ExtResource( 8 )]

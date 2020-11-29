@@ -29,7 +29,7 @@ margin_right = -195.277
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 150.0
-margin_bottom = 140.0
+margin_bottom = 139.0
 rect_pivot_offset = Vector2( 13.0279, 8.76501 )
 
 [node name="2" parent="pc_boxes" instance=ExtResource( 1 )]
@@ -37,7 +37,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 154.0
 margin_right = 304.0
-margin_bottom = 140.0
+margin_bottom = 139.0
 rect_pivot_offset = Vector2( 13.0279, 8.76501 )
 
 [node name="3" parent="pc_boxes" instance=ExtResource( 1 )]
@@ -45,7 +45,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 308.0
 margin_right = 458.0
-margin_bottom = 140.0
+margin_bottom = 139.0
 rect_pivot_offset = Vector2( 13.0279, 8.76501 )
 
 [node name="4" parent="pc_boxes" instance=ExtResource( 1 )]
@@ -53,7 +53,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 462.0
 margin_right = 612.0
-margin_bottom = 140.0
+margin_bottom = 139.0
 rect_pivot_offset = Vector2( 13.0279, 8.76501 )
 
 [node name="5" parent="pc_boxes" instance=ExtResource( 1 )]
@@ -61,7 +61,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 616.0
 margin_right = 766.0
-margin_bottom = 140.0
+margin_bottom = 139.0
 rect_pivot_offset = Vector2( 13.0279, 8.76501 )
 
 [node name="left_box" type="Control" parent="."]

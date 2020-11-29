@@ -16,3 +16,9 @@ func is_npc(obj):
 	for npc in npc_list:
 		if obj == npc:
 			return true
+			
+func play_turn():
+	for npc in npc_list:
+		npc.start_turn()
+		npc.play_turn()
+	game.end_turn()

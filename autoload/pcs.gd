@@ -37,3 +37,7 @@ func prev_pc():
 	else:
 		selected_pc -= 1
 	print("prev pc ", selected_pc)
+
+func play_turn():
+	for pc in pc_list:
+		pc.start_turn()

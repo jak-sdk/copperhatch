@@ -41,15 +41,15 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		if event.button_mask & (BUTTON_MASK_MIDDLE):
 			var direction = Vector3(0,0,0)
-			direction.x -= event.relative.y
-			direction.z -= event.relative.y
-			direction.y += event.relative.y
+			direction.x -= 2*event.relative.y
+			direction.z -= 2*event.relative.y
+			#direction.y += event.relative.y
 			direction.x -= event.relative.x
 			direction.z += event.relative.x
 #			var camtrans_x = event.relative.x * -1
 #			var camtrans_y = event.relative.y
 			#camera_body.move_and_slide(Vector3(camtrans_x,camtrans_y,-camtrans_x))
-			camera_body.move_and_slide(direction * (cam.size / self.starting_cam_size), Vector3(0,1,0))
+			camera_body.move_and_slide(0.33 * direction * (cam.size / self.starting_cam_size), Vector3(0,1,0))
 			
 	if null and event is InputEventMouseButton:
 		if event.is_pressed():

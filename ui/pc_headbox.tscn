@@ -1,10 +1,22 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://ui/pc_headbox.gd" type="Script" id=1]
 [ext_resource path="res://ui/themes/1.tres" type="Theme" id=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.882353, 0.882353, 0.882353, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.243137, 0.431373, 0.709804, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.239216, 0.219608, 0.219608, 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.713726, 0.270588, 0.270588, 1 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.239216, 0.219608, 0.219608, 1 )
 
 [node name="pc_headbox" type="Control"]
 anchor_right = 0.072
@@ -18,13 +30,13 @@ __meta__ = {
 }
 
 [node name="name" type="Label" parent="."]
-anchor_top = 0.74
+anchor_top = 0.784
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 1.044
 margin_left = 1.0
-margin_top = -0.0690002
+margin_top = 0.0110016
 margin_right = 0.0239563
-margin_bottom = -0.0840149
+margin_bottom = -0.0039978
 text = "PC Name"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -32,11 +44,45 @@ __meta__ = {
 
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0
-anchor_bottom = 0.7
-margin_right = 0.0399933
-margin_bottom = 0.0800018
+anchor_bottom = 0.583
+margin_right = 3.05176e-05
+margin_bottom = 0.0599976
 mouse_filter = 2
 custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ap_bar" type="ProgressBar" parent="."]
+anchor_left = 0.009
+anchor_top = 0.689
+anchor_right = 0.995
+anchor_bottom = 0.778
+margin_left = -0.953
+margin_top = -0.0200043
+margin_right = 0.0850372
+margin_bottom = -0.0400085
+custom_styles/fg = SubResource( 2 )
+custom_styles/bg = SubResource( 3 )
+value = 50.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="health_bar" type="ProgressBar" parent="."]
+anchor_left = 0.009
+anchor_top = 0.586
+anchor_right = 0.995
+anchor_bottom = 0.678
+margin_left = -0.953
+margin_top = 0.519997
+margin_right = 0.085022
+margin_bottom = -0.0400085
+custom_styles/fg = SubResource( 4 )
+custom_styles/bg = SubResource( 5 )
+value = 50.0
+percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
 }

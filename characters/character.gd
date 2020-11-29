@@ -19,8 +19,10 @@ var rng = RandomNumberGenerator.new()
 
 
 ## 
-onready var health = 100
-onready var ap = 200
+var health = 100
+var ap = 100
+
+var max_ap = 100
 
 
 # Attacking may need it's own script eventually
@@ -70,26 +72,40 @@ func _input(event):
 	pass
 	
 func move_to(point):
-	self.path = self.get_path_to(point)
+	var new_path = self.get_path_to(point, game.in_encounter())
+	self.path = new_path
+	spend_ap(get_ap_cost_of_path(new_path))
+	
 	draw_path(path)
+	print("ap is " + str(ap))
 
 func available_move_distance(): # TODO
 	# posture (crouch, prone, stand, run)
 	# wounds
 	# weight
 	# terrain?
-	return 15 #self.ap/3.0
+	return self.ap #/3.0
+
+func get_ap_cost_of_path(some_path):
+	var last_point = some_path[0]
+	var distance = 0
+	for point in some_path:
+		distance += (point - last_point).length()
+	
+	print("ap cost of path is " + str(distance))
+	return distance
 
 func get_path_to(point, limit_by_ap=false):
+	# cut the path short by our move_limit
 	var move_limit = self.available_move_distance()
 	
 	var init_path_to = nav.get_simple_path(self.translation, point)
 	var path_to = []
 	
-	if limit_by_ap == false:
+	if not limit_by_ap:
 		path_to = init_path_to
 		
-	if limit_by_ap == true:
+	if limit_by_ap:
 		var distance = 0
 		var prev_point = init_path_to[0]
 
@@ -136,6 +152,7 @@ func _on_foo_mouse_exited():
 	ui.enemy_exit_mouse_over(self)
 
 func attack(enemy, ap_spend = 10, attack_type = 'single'):
+	self.spend_ap(ap_spend)
 	# this uses the precalculated attack we used earlier to provide a hit chance
 	# lookup in the cache for the specified params
 	# if cache miss.. then something has gone horribly wrong
@@ -145,11 +162,25 @@ func attack(enemy, ap_spend = 10, attack_type = 'single'):
 	for shot in nattack['shots']:
 		if shot['hit']:
 			draw_shot(shot['shootdir'], 'red')
+			enemy.hit(10)
 		else:
 			draw_shot(shot['shootdir'], 'white')
 	pass
 	
+	# housekeeping??
+	game.enter_encounter()
 
+func hit(damage):
+	self.health -= damage
+	if self.health <= 0:
+		die()
+
+func die():
+	pass 
+
+func is_alive():
+	return self.health > 0
+	
 # how does this work, we predict an attack against the ground??
 func free_fire(): # TODO
 	pass
@@ -251,3 +282,26 @@ func stand():
 	self.stance = "STAND"
 	self.move_gait = "WALK"
 	self.get_node("skeleton/AnimationTree")['parameters/Transition/current'] = 0
+
+func spend_ap(amount):
+	if not game.in_encounter():
+		print("not spending ap, not in encounter")
+		return
+	assert(ap >= amount)
+	ap -= amount
+	print("spending ap: " + str(amount))
+
+func gain_ap(amount):
+	if ap + amount > max_ap:
+		ap = max_ap
+	else:
+		ap += amount
+
+func play_turn():
+	print("npc attacking")
+	while ap > 80:
+		predict_attack(pcs.get_selected_pc())
+		attack(pcs.get_selected_pc())
+
+func start_turn():
+	gain_ap(50)
